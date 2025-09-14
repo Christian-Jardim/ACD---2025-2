@@ -98,18 +98,30 @@ public class Main {
 
 	public static void recebePedido(Scanner input, Pedido pedido, Estoque estoque) {
 		int x,y,i;
-		x = i = y = 0;
+		x = i = 0;
 
 		System.out.print("\n Informe a quantidade de tipos de itens do pedido: ");
 		x = input.nextInt();
 
-		if(x<estoque.armazem.size() | x>estoque.armazem.size()) { // Verifica se a quantidade de tipos de itens e valida
+		if(x<1 | x>estoque.armazem.size()) { // Verifica se a quantidade de tipos de itens e valida
 			System.out.println("\n A quantidade de tipos de itens do armazem e: " + estoque.armazem.size());
 		} else {
 			while(i<x) { // Loop para receber os itens do pedido
+			    y = 1;
+			    
 				System.out.print("\n Digite o codigo do item (" + (i + 1) + ") (1-arroz 2-feijao 3-farinha 4-leite): ");
 				int tipo = input.nextInt();
 
+                for(Produto p : estoque.armazem) { // Verifica se o tipo do item ha no armazem
+                    if(p.intDescricao() == tipo) {
+                        y = 0;
+                    }
+                }
+                
+                if(y == 1) {
+                    System.out.println("\n Nao ha esse tipo de produto no armazem!");
+                }
+                
 				for(Item item : pedido.itens) { // Verifica se o item ja esta no pedido
 					if(tipo == item.intDescricao()) {
 						System.out.println("\n O item ja esta no pedido!");
@@ -133,7 +145,6 @@ public class Main {
 					}
 				}
 
-				y = 0;
 				i++;
 			}
 		}
@@ -154,6 +165,9 @@ public class Main {
 				for(Item item : pedido.itens) {
 					if(produto.descricao == item.descricao) {
 						produto.quantidadeEstoque -= item.quantidade;
+						if(produto.quantidadeEstoque == 0) {
+						    estoque.armazem.remove(produto);
+						}
 						vt += produto.preco * item.quantidade;
 					}
 				}
@@ -163,6 +177,7 @@ public class Main {
 			pedido.mostraPedido();
 			System.out.println("\n Meio de pagamento: " + pedido.getPagamento());
 			System.out.println(" Valor total do pedido: " + vt);
+			pedido.itens.clear();
 		}
 	}
 }
