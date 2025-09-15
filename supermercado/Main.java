@@ -90,7 +90,7 @@ public class Main {
 
 			if(x != 1) { // Caso o produto nao esteja no estoque, recebe o seu valor e o adicina a ele
 				System.out.print(" Digite o valor: ");
-				int valor = input.nextInt();
+				double valor = input.nextDouble();
 				estoque.preenche(new Produto(tipo, valor, quant));
 			}
 		}
