@@ -4,7 +4,7 @@ public class Produto {
 	public double preco;
 	public int quantidadeEstoque;
 
-	public Produto(int t, int v, int q) {
+	public Produto(int t, double v, int q) {
 		switch(t) {
 		case 1:
 			descricao = Descricao.ARROZ;
